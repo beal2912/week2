@@ -7,6 +7,16 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func TestDefaultGenesisIsCorrect(t *testing.T) {
+	require.EqualValues(t,
+		&GenesisState{
+			StoredGameList: []*StoredGame{},
+			NextGame:       &NextGame{"", uint64(1)},
+		},
+		DefaultGenesis())
+}
+
+
 func TestGenesisState_Validate(t *testing.T) {
 	for _, tc := range []struct {
 		desc     string
@@ -19,12 +29,46 @@ func TestGenesisState_Validate(t *testing.T) {
 			valid:    true,
 		},
 		{
-			desc:     "valid genesis state",
+			desc: "valid genesis state",
 			genState: &types.GenesisState{
 
+				NextGame: &types.NextGame{
+					IdValue: 23,
+				},
+				NextGame: &types.NextGame{
+					IdValue: 68,
+				},
+				NextGame: &types.NextGame{
+					IdValue: 37,
+				},
+				NextGame: &types.NextGame{
+					IdValue: 31,
+				},
+				StoredGameList: []types.StoredGame{
+					{
+						Index: "0",
+					},
+					{
+						Index: "1",
+					},
+				},
 				// this line is used by starport scaffolding # types/genesis/validField
 			},
 			valid: true,
+		},
+		{
+			desc: "duplicated storedGame",
+			genState: &types.GenesisState{
+				StoredGameList: []types.StoredGame{
+					{
+						Index: "0",
+					},
+					{
+						Index: "0",
+					},
+				},
+			},
+			valid: false,
 		},
 		// this line is used by starport scaffolding # types/genesis/testcase
 	} {
