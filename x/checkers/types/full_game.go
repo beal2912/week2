@@ -5,7 +5,7 @@ import (
 	"fmt"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/beal2912/week2/tree/main/x/checkers/rules"
+	"github.com/alice/checkers/x/checkers/rules"
 )
 
 //func (storedGame *StoredGame) GetCreatorAddress() (creator sdk.AccAddress, err error) {
@@ -36,10 +36,10 @@ func (storedGame *StoredGame) ParseGame() (game *rules.Game, err error) {
 }
 
 func (storedGame StoredGame) Validate() (err error) {
-	_, err = storedGame.GetCreatorAddress()
-	if err != nil {
-		return err
-	}
+//	_, err = storedGame.GetCreatorAddress()
+//	if err != nil {
+//		return err
+//	}
 	_, err = storedGame.ParseGame()
 	if err != nil {
 		return err
